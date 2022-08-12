@@ -11,5 +11,10 @@ pipeline{
             echo "Testing"
         }
     }
+    stage("Inetgration stage"){
+        steps{
+            echo " New stage"
+        }
+    }
     }
 }
