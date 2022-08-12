@@ -1,0 +1,45 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1189.va_d37a_e9e4eda_">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2725.v7b_c717eb_12ce">
+    <script>pipeline {
+    agent any
+    environment {
+        MAX_SIZE = 10
+        MIN_SIZE = 1
+    }
+    stages {
+        stage(&apos;Default Scale&apos;) {
+            steps {
+                echo &quot;MAX_SIZE = ${env.MAX_SIZE}&quot;
+                echo &quot;MIN_SIZE = ${env.MIN_SIZE}&quot;
+            }
+        }
+        stage(&apos;Scale by 10x&apos;) {
+            environment {
+                MAX_SIZE = 100
+                MIN_SIZE = 10
+            }
+            steps {
+                echo &quot;MAX_SIZE = ${env.MAX_SIZE}&quot;
+                echo &quot;MIN_SIZE = ${env.MIN_SIZE}&quot;
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

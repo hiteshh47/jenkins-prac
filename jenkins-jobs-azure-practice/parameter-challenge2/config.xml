@@ -1,0 +1,78 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1189.va_d37a_e9e4eda_">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>DEV</string>
+              <string>STAGING</string>
+              <string>PROD</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>APIKEY</name>
+          <description>ENTER YOUR PASSWORD</description>
+          <defaultValue>{AQAAABAAAAAQVm764E6GNdO610TJWOt97gaf9boiGk9SJ4dkn/VWzF4=}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CHANGELOG</name>
+          <defaultValue>THIS IS A REPORT</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2725.v7b_c717eb_12ce">
+    <script>pipeline {
+    agent any
+    stages {
+        stage(&apos;Test&apos;) {
+            steps {
+                echo &quot;This step tests the project&quot;
+            }
+        }
+        stage(&apos;Deploy&apos;) {
+            when {
+             expression {params.ENVIRONMENT == &quot;PROD&quot;}
+            }
+            steps {
+                echo &quot;This stage deploys the project&quot;
+            }
+        }
+            
+    
+        stage(&apos;Report&apos;) {
+            steps {
+                echo &quot;This stage generates a report&quot;
+                
+                sh &quot;printf \&quot;${params.CHANGELOG}\&quot; &gt; ${params.ENVIRONMENT}.txt&quot;
+                archiveArtifacts allowEmptyArchive: true, 
+                    artifacts: &apos;*.txt&apos;, 
+                    fingerprint: true, 
+                    followSymlinks: false, 
+                    onlyIfSuccessful: true
+            }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

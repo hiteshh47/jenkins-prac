@@ -1,0 +1,45 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-build plugin="workflow-job@1189.va_d37a_e9e4eda_">
+  <actions>
+    <hudson.model.ParametersAction>
+      <safeParameters class="sorted-set"/>
+      <parameters>
+        <hudson.model.StringParameterValue>
+          <name>ENVIRONMENT</name>
+          <value>DEV</value>
+        </hudson.model.StringParameterValue>
+        <hudson.model.PasswordParameterValue>
+          <name>APIKEY</name>
+          <description>ENTER YOUR PASSWORD</description>
+          <value>{AQAAABAAAAAQsy5tURtmizygJxI8tw9DcjlBWNMzQmJK67H0dU1x3Es=}</value>
+        </hudson.model.PasswordParameterValue>
+        <hudson.model.StringParameterValue>
+          <name>CHANGELOG</name>
+          <value>THIS IS A REPORT</value>
+        </hudson.model.StringParameterValue>
+      </parameters>
+      <parameterDefinitionNames>
+        <string>ENVIRONMENT</string>
+        <string>APIKEY</string>
+        <string>CHANGELOG</string>
+      </parameterDefinitionNames>
+    </hudson.model.ParametersAction>
+    <hudson.model.CauseAction>
+      <causeBag class="linked-hash-map">
+        <entry>
+          <hudson.model.Cause_-UserIdCause/>
+          <int>1</int>
+        </entry>
+      </causeBag>
+    </hudson.model.CauseAction>
+  </actions>
+  <queueId>21</queueId>
+  <timestamp>1656985665834</timestamp>
+  <startTime>1656985665845</startTime>
+  <result>FAILURE</result>
+  <duration>12</duration>
+  <charset>UTF-8</charset>
+  <keepLog>false</keepLog>
+  <completed>true</completed>
+  <checkouts class="hudson.util.PersistedList"/>
+</flow-build>

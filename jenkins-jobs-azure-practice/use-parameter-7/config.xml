@@ -1,0 +1,102 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1189.va_d37a_e9e4eda_">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>FATHER</string>
+        <string>AWS_REGION</string>
+        <string>PHRASE</string>
+        <string>RUN_TESTS</string>
+        <string>DATABASE_PASSWORD</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>FATHER</name>
+          <description>Enter Your father’s name</description>
+          <defaultValue>Vader</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>PHRASE</name>
+          <description>Enter your favorite phrase from a Charles Dickens Book</description>
+          <defaultValue>It was the best of times, it was the worst of times,
+it was the age of wisdom, it was the age of foolishness,
+it was the epoch of belief, it was the epoch of incredulity,
+it was the season of light, it was the season of darkness,
+it was the spring of hope, it was the winter of despair.</defaultValue>
+          <trim>false</trim>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>RUN_TESTS</name>
+          <description>Toggle this value to run tests.</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>AWS_REGION</name>
+          <description>Select the AWS region for deployment.</description>
+          <choices>
+            <string>us-east-1</string>
+            <string>us-east-2</string>
+            <string>us-west-1</string>
+            <string>us-west-2</string>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>DATABASE_PASSWORD</name>
+          <description>Enter the database password</description>
+          <defaultValue>{AQAAABAAAAAgzyryiKFh5472pdDF03NopEJTHqrw0/S0Gf83zKmZmS8/X9Md2IQkw9u4us7pn9dw}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2725.v7b_c717eb_12ce">
+    <script>pipeline {
+    agent any
+    parameters {
+        string(name: &apos;FATHER&apos;,
+               defaultValue: &apos;Vader&apos;,
+               description: &apos;Enter Your father’s name&apos;)
+
+        text(name: &apos;PHRASE&apos;,
+                description: &apos;Enter your favorite phrase from a Charles Dickens Book&apos;,
+                defaultValue: &apos;It was the best of times, it was the worst of times,\nit was the age of wisdom, it was the age of foolishness,\nit was the epoch of belief, it was the epoch of incredulity,\nit was the season of light, it was the season of darkness,\nit was the spring of hope, it was the winter of despair.&apos;)
+
+        booleanParam(name: &apos;RUN_TESTS&apos;,
+                defaultValue: false,
+                description: &apos;Toggle this value to run tests.&apos;)
+
+        choice(name: &apos;AWS_REGION&apos;,
+                choices: [&apos;us-east-1&apos;, &apos;us-east-2&apos;, &apos;us-west-1&apos;, &apos;us-west-2&apos;],
+                description: &apos;Select the AWS region for deployment.&apos;)
+
+        password(name: &apos;DATABASE_PASSWORD&apos;,
+                defaultValue: &apos;DATABASE_PASSWORD&apos;,
+                description: &apos;Enter the database password&apos;)
+    }
+    stages {
+        stage(&apos;Example&apos;) {
+            steps {
+                echo &quot;I am your father.  My name is ${params.FATHER}&quot;
+                echo &quot;My favorite phrase is ${params.PHRASE}&quot;
+                echo &quot;Will I rule the universe? ${params.RUN_TESTS}&quot;
+                echo &quot;I live in ${params.AWS_REGION}&quot;
+                echo &quot;Can I tell you a secret? ${params.DATABASE_PASSWORD}&quot;
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

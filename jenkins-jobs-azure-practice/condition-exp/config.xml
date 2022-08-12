@@ -1,0 +1,72 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1189.va_d37a_e9e4eda_">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>ENVIRONMENT</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <description>Choose the environment for this deployment</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>DEVELOPMENT</string>
+              <string>STAGING</string>
+              <string>PRODUCTION</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2725.v7b_c717eb_12ce">
+    <script>pipeline {
+    agent any
+    parameters {
+        choice(name: &apos;ENVIRONMENT&apos;,
+            choices: [&apos;DEVELOPMENT&apos; , &apos;STAGING&apos;, &apos;PRODUCTION&apos;],
+            description: &apos;Choose the environment for this deployment&apos;)
+    }
+
+    stages {
+        stage (&apos;Build&apos;) {
+            steps {
+                echo &quot;Building...&quot;
+            }
+        }
+        stage (&apos;Deploy to non-production environments&apos;) {
+            when {
+                // Only deploy if the environment is NOT production
+                expression { params.ENVIRONMENT != &apos;PRODUCTION&apos; }
+            }
+            steps {
+                echo &quot;Deploying to ${params.ENVIRONMENT}&quot;
+            }
+        }
+        stage (&apos;Deploy to production environment&apos;) {
+            when {
+                expression { params.ENVIRONMENT == &apos;PRODUCTION&apos; }
+            }
+            steps {
+                input message: &apos;Confirm deployment to production...&apos;, ok: &apos;Deploy&apos;
+                echo &quot;Deploying to ${params.ENVIRONMENT}&quot;
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
