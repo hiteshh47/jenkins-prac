@@ -1,12 +1,17 @@
 pipeline{
-    //agent any
+    agent any
     //agent { docker { image 'maven:3.8.6-jdk-11' }}
-    agent{ docker{image 'node:13.8'}}
+    //agent{ docker{image 'node:13.8'}}
     stages{
     stage("Build"){
         steps{
             echo "Build"
-            sh "node --version"
+            //sh "node --version"
+            echo "$PATH"
+            echo "$BUILD_NUMBER"
+            echo"$BUILD_NUMBER"
+            echo"$JENKINS_URL"
+            echo "$BUILD_ID"
         }
     }
     stage("Test"){
