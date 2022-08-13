@@ -2,16 +2,21 @@ pipeline{
     agent any
     //agent { docker { image 'maven:3.8.6-jdk-11' }}
     //agent{ docker{image 'node:13.8'}}
+    environment{
+        dockerHome = tool "h-docker"
+        mavenHome = tool "h-maven"
+        PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
+    }
+    
     stages{
     stage("Build"){
         steps{
             echo "Build"
-            //sh "node --version"
-            echo "$PATH"
-            echo "$BUILD_NUMBER"
-            echo"$BUILD_NUMBER"
-            echo"$JENKINS_URL"
-            echo "$BUILD_ID"
+            sh "mvn --version"
+            sh "docker --version"
+            echo "PATH - $PATH"
+            echo "BUILD no. - $BUILD_NUMBER"
+            echo "$BUILD_TAG"
         }
     }
     stage("Test"){
